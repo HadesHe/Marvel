@@ -7,7 +7,7 @@ import com.avenging.hades.core.data.model.Comic;
 import com.avenging.hades.core.data.model.DataWrapper;
 import com.avenging.hades.core.data.network.MarvelService;
 import com.avenging.hades.core.data.network.MarvelServiceFactory;
-import com.avenging.hades.core.network.RemoteCallback;
+import com.avenging.hades.core.data.network.RemoteCallback;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

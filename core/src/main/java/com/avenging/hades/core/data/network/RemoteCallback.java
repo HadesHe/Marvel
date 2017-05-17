@@ -1,4 +1,4 @@
-package com.avenging.hades.core.network;
+package com.avenging.hades.core.data.network;
 
 
 import java.net.HttpURLConnection;
