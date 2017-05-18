@@ -1,6 +1,7 @@
 package com.avenging.hades.mobile.list;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,6 +27,31 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public static final int VIEW_TYPE_LIST = 1;
     public static final int VIEW_TYPE_LOADING = 2;
     private final ArrayList<CharacterMarvel> mCharacterList;
+
+    public boolean addLoadingView() {
+
+        if(getItemViewType(mCharacterList.size()-1)!=VIEW_TYPE_LOADING){
+            add(null);
+            return true;
+        }
+        return false;
+    }
+
+    private void add(CharacterMarvel item) {
+        add(null,item);
+    }
+
+    private void add(@Nullable Integer position, CharacterMarvel item) {
+        if(position!=null){
+            mCharacterList.add(position,item);
+            notifyItemInserted(position);
+
+        }else{
+            mCharacterList.add(item);
+            notifyItemInserted(mCharacterList.size()-1);
+
+        }
+    }
 
     @IntDef({VIEW_TYPE_LOADING,VIEW_TYPE_GALLERY,VIEW_TYPE_LIST})
     @Retention(RetentionPolicy.SOURCE)

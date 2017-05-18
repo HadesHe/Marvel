@@ -14,6 +14,8 @@ public interface ListContract {
     interface ViewActions{
 
         void onInitialListRequested();
+
+        void onListEndReached(Integer offset, Integer limit, String searchQuery);
     }
 
     interface ListView extends RemoteView{

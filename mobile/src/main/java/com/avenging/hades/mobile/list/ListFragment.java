@@ -46,6 +46,7 @@ public class ListFragment extends Fragment implements ListContract.ListView, Lis
     private ImageView mMessageImage;
     private TextView mMessageText;
     private Button mMessageButton;
+    private String mSearchQuery;
 
     public ListFragment(){}
 
@@ -119,12 +120,18 @@ public class ListFragment extends Fragment implements ListContract.ListView, Lis
                 onRefresh();
             }
         });
-
-
     }
 
     private EndLessRecyclerViewOnScrollListener setupScrollListener(boolean isTabletLayout, RecyclerView.LayoutManager layoutManager) {
-        return null;
+        return new EndLessRecyclerViewOnScrollListener(isTabletLayout?(GridLayoutManager)layoutManager:(LinearLayoutManager)layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                if(mListCharacterAdapter.addLoadingView()){
+                    mListPresenter.onListEndReached(totalItemsCount,null,mSearchQuery);
+                }
+
+            }
+        };
     }
 
     private RecyclerView.LayoutManager setupLayoutManager(boolean isTabletLayout) {
