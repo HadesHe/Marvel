@@ -16,6 +16,8 @@ public interface ListContract {
         void onInitialListRequested();
 
         void onListEndReached(Integer offset, Integer limit, String searchQuery);
+
+        void onCharacterSearched(String mSearchQuery);
     }
 
     interface ListView extends RemoteView{

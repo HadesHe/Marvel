@@ -11,6 +11,7 @@ public interface CharacterContract {
     interface ViewActions{
 
 
+        void onCharacterRequested(long id);
     }
 
     interface CharacterView extends RemoteView {

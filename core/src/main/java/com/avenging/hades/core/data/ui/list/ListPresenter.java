@@ -32,6 +32,17 @@ public class ListPresenter extends BasePresenter<ListContract.ListView> implemen
         getCharacters(ITEM_REQUEST_INITIAL_OFFSET,ITEM_REQUEST_LIMIT,null);
     }
 
+    @Override
+    public void onListEndReached(Integer offset, Integer limit, String searchQuery) {
+        getCharacters(offset,limit==null?ITEM_REQUEST_LIMIT:limit,searchQuery);
+    }
+
+    @Override
+    public void onCharacterSearched(String mSearchQuery) {
+        getCharacters(ITEM_REQUEST_INITIAL_OFFSET,ITEM_REQUEST_LIMIT,mSearchQuery);
+
+    }
+
     private void getCharacters(Integer offset, Integer limit, final String searchQuery) {
         if(!isViewAttached()) return;
         mView.showMessageLayout(false);
