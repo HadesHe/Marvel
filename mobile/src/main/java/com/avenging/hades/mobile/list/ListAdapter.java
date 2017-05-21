@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.avenging.hades.mobile.util.ImageLoaderUtil;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hades on 2017/5/18.
@@ -26,6 +28,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public static final int VIEW_TYPE_GALLERY = 0;
     public static final int VIEW_TYPE_LIST = 1;
     public static final int VIEW_TYPE_LOADING = 2;
+    private static final String TAG = ListAdapter.class.getSimpleName();
     private final ArrayList<CharacterMarvel> mCharacterList;
 
     public boolean addLoadingView() {
@@ -51,6 +54,45 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             notifyItemInserted(mCharacterList.size()-1);
 
         }
+    }
+
+    public void removeAll() {
+        mCharacterList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void setViewType(@ViewType int viewType){
+        mViewType=viewType;
+    }
+
+    public int getViewType() {
+        return mViewType;
+    }
+
+    public void addItems(List<CharacterMarvel> itemsList) {
+        mCharacterList.addAll(itemsList);
+        notifyItemRangeInserted(getItemCount(),mCharacterList.size()-1);
+    }
+
+    public boolean removeLoadingView() {
+        if(mCharacterList.size()>1){
+            int loadingViewPosition=mCharacterList.size()-1;
+            if(getItemViewType(loadingViewPosition)==VIEW_TYPE_LOADING){
+                remove(loadingViewPosition);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void remove(int position) {
+        if(mCharacterList.size()<position){
+            Log.w(TAG,"The item at position: "+position+" doesn't exist");
+            return;
+        }
+        mCharacterList.remove(position);
+        notifyItemRemoved(position);
+
     }
 
     @IntDef({VIEW_TYPE_LOADING,VIEW_TYPE_GALLERY,VIEW_TYPE_LIST})
