@@ -1,5 +1,6 @@
 package com.avenging.hades.core.data.ui.character;
 
+import com.avenging.hades.core.data.model.CharacterMarvel;
 import com.avenging.hades.core.data.ui.base.RemoteView;
 
 /**
@@ -16,6 +17,7 @@ public interface CharacterContract {
 
     interface CharacterView extends RemoteView {
 
+        void showCharacter(CharacterMarvel mCharacter);
     }
 
 }

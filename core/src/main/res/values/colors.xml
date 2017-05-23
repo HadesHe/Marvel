@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="itemComicTitleTextColor">@color/dirtyWhite</color>
+    <color name="red">#e7151d</color>
+    <color name="gray">#727272</color>
+    <color name="lightGray">#858585</color>
+    <color name="dirtyWhite">#e0e0e0</color>
+    <color name="whiteOpacity54">#8affffff</color>
+    <color name="whiteOpacity5">#0dffffff</color>
+</resources>
