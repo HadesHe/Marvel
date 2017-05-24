@@ -12,4 +12,8 @@
        <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="ItemDetailTitle">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
 </resources>

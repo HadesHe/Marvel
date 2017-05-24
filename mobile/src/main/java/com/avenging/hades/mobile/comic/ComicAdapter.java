@@ -62,6 +62,10 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicViewHol
         return mComicList.size();
     }
 
+    public Comic getItem(int position) {
+        return mComicList.get(position);
+    }
+
     public class ComicViewHolder extends RecyclerView.ViewHolder{
 
 

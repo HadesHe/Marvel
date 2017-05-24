@@ -2,6 +2,7 @@ package com.avenging.hades.core.data.ui.character;
 
 import com.avenging.hades.core.data.DataManager;
 import com.avenging.hades.core.data.model.CharacterMarvel;
+import com.avenging.hades.core.data.model.Comic;
 import com.avenging.hades.core.data.model.DataWrapper;
 import com.avenging.hades.core.data.network.RemoteCallback;
 import com.avenging.hades.core.data.ui.base.BasePresenter;
@@ -26,6 +27,48 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
         getCharacter(characterId);
 
     }
+
+    @Override
+    public void onCharacterComicsRequested(long id, int size) {
+        getComicList(id,null,size);
+    }
+
+    private void getComicList(Long id, Integer offset, Integer size) {
+        if(!isViewAttached())return;
+        mView.showMessageLayout(false);
+        mView.showProgress();
+
+        mDataManager.getComics(id, offset, size, new RemoteCallback<DataWrapper<List<Comic>>>() {
+            @Override
+            protected void onFailed(Throwable throwable) {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                mView.showError(throwable.getMessage());
+
+            }
+
+            @Override
+            protected void onUnauthorized() {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                mView.showUnauthorizedError();
+
+            }
+
+            @Override
+            protected void onSuccess(DataWrapper<List<Comic>> body) {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                if(body.getData().getResults().isEmpty()){
+                    mView.showError("Character has no comics");
+                    return;
+                }
+                mView.showComicList(body.getData().getResults());
+
+            }
+        });
+    }
+
 
     private void getCharacter(long id) {
         if(!isViewAttached()) return;

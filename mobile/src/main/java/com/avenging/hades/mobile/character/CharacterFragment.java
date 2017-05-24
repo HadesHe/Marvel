@@ -22,6 +22,7 @@ import com.avenging.hades.core.data.model.Comic;
 import com.avenging.hades.core.data.ui.character.CharacterContract;
 import com.avenging.hades.core.data.ui.character.CharacterPresenter;
 import com.avenging.hades.mobile.R;
+import com.avenging.hades.mobile.comic.ComicAdapter;
 import com.avenging.hades.mobile.util.ImageLoaderUtil;
 import com.avenging.hades.mobile.util.widgets.ComicFrameWrapper;
 import com.avenging.hades.mobile.util.widgets.DescritionFrameWrapper;
@@ -31,7 +32,7 @@ import java.util.List;
 /**
  * Created by Hades on 2017/5/21.
  */
-public class CharacterFragment extends Fragment implements CharacterContract.CharacterView {
+public class CharacterFragment extends Fragment implements CharacterContract.CharacterView, ComicAdapter.IteractionListener {
     private static final String ARG_CHARACTER = "arg_character";
     private CharacterPresenter mCharacterPresenter;
     private CharacterMarvel mCharacterMarvel;
@@ -43,6 +44,7 @@ public class CharacterFragment extends Fragment implements CharacterContract.Cha
     private ImageView mMessageImage;
     private TextView mMessageText;
     private Button mMessageButton;
+    private ComicFrameWrapper mComicWrapper;
 
     public static Fragment newInstance(CharacterMarvel characterMarvel) {
         Bundle args=new Bundle();
@@ -128,31 +130,50 @@ public class CharacterFragment extends Fragment implements CharacterContract.Cha
 
     @Override
     public void showProgress() {
+        if(mContentLoadingProgress.getVisibility()!=View.VISIBLE){
+            mContentLoadingProgress.setVisibility(View.VISIBLE);
+        }
+        mContentFrame.setVisibility(View.GONE);
 
     }
 
     @Override
     public void hideProgress() {
+        mContentLoadingProgress.setVisibility(View.GONE);
+        mContentFrame.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     public void showUnauthorizedError() {
+        mMessageImage.setImageResource(R.drawable.ic_error_list);
+        mMessageText.setText(getString(R.string.error_generic_server_error,"Unauthorized"));
+        mMessageButton.setText(getString(R.string.action_try_again));
+        showMessageLayout(true);
 
     }
 
     @Override
     public void showEmpty() {
-
+        mMessageImage.setImageResource(R.drawable.ic_clear);
+        mMessageText.setText(getString(R.string.error_no_char_info_to_display));
+        mMessageButton.setText(getString(R.string.action_check_again));
+        showMessageLayout(true);
     }
 
     @Override
     public void showError(String errorMessage) {
+        mMessageImage.setImageResource(R.drawable.ic_clear);
+        mMessageText.setText(getString(R.string.error_generic_server_error,errorMessage));
+        mMessageButton.setText(getString(R.string.action_check_again));
+        showMessageLayout(true);
 
     }
 
     @Override
     public void showMessageLayout(boolean show) {
+        mMessageLayout.setVisibility(show?View.VISIBLE:View.GONE);
+        mContentFrame.setVisibility(show?View.GONE:View.VISIBLE);
 
     }
 
@@ -169,7 +190,23 @@ public class CharacterFragment extends Fragment implements CharacterContract.Cha
         List<Comic> characterComics=mCharacter.getComics().getItems();
         if(!characterComics.isEmpty()){
             mComicWrapper=new ComicFrameWrapper(mActivity,getString(R.string.comics),characterComics,this);
+            mContentFrame.addView(mComicWrapper);
+            mCharacterPresenter.onCharacterComicsRequested(mCharacter.getId(),characterComics.size());
         }
+
+        // TODO: 2017/5/24  add stories
+
+    }
+
+    @Override
+    public void showComicList(List<Comic> results) {
+        mComicWrapper.loadImages(results);
+
+    }
+
+    @Override
+    public void onComicClick(List<Comic> comicList, ImageView sharedImageView, int clickedPosition) {
+        // TODO: 2017/5/24 ComicFragment
 
     }
 }
