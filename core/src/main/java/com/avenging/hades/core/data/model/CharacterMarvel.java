@@ -26,6 +26,8 @@ public class CharacterMarvel implements Parcelable {
     private Image mThumbnail;
     @JsonProperty(value = "comics")
     private CharacterComicWrapper mComics;
+    @JsonProperty(value = "series")
+    private CharacterComicWrapper mSeries;
     @JsonProperty(value = "stories")
     private CharacterComicWrapper mStories;
     @JsonProperty(value = "events")
@@ -106,6 +108,14 @@ public class CharacterMarvel implements Parcelable {
 
     public void setUrls(List<Url> mUrls) {
         this.mUrls = mUrls;
+    }
+
+    public CharacterComicWrapper getSeries() {
+        return mSeries;
+    }
+
+    public void setSeries(CharacterComicWrapper mSeries) {
+        this.mSeries = mSeries;
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,9 +24,11 @@ import com.avenging.hades.core.data.ui.character.CharacterContract;
 import com.avenging.hades.core.data.ui.character.CharacterPresenter;
 import com.avenging.hades.mobile.R;
 import com.avenging.hades.mobile.comic.ComicAdapter;
+import com.avenging.hades.mobile.comic.ComicFragment;
 import com.avenging.hades.mobile.util.ImageLoaderUtil;
 import com.avenging.hades.mobile.util.widgets.ComicFrameWrapper;
 import com.avenging.hades.mobile.util.widgets.DescritionFrameWrapper;
+import com.avenging.hades.mobile.util.widgets.UrlFrameWrapper;
 
 import java.util.List;
 
@@ -45,6 +48,9 @@ public class CharacterFragment extends Fragment implements CharacterContract.Cha
     private TextView mMessageText;
     private Button mMessageButton;
     private ComicFrameWrapper mComicWrapper;
+    private ComicFrameWrapper mSeriesWrapper;
+    private ComicFrameWrapper mStoriesWrapper;
+    private ComicFrameWrapper mEventsWrapper;
 
     public static Fragment newInstance(CharacterMarvel characterMarvel) {
         Bundle args=new Bundle();
@@ -194,7 +200,34 @@ public class CharacterFragment extends Fragment implements CharacterContract.Cha
             mCharacterPresenter.onCharacterComicsRequested(mCharacter.getId(),characterComics.size());
         }
 
-        // TODO: 2017/5/24  add stories
+        List<Comic> characterSeries=mCharacter.getSeries().getItems();
+        if(!characterSeries.isEmpty()){
+            mSeriesWrapper=new ComicFrameWrapper(mActivity,getString(R.string.series),characterSeries,this);
+            mContentFrame.addView(mSeriesWrapper);
+            mCharacterPresenter.onCharacterSeriesRequested(mCharacter.getId(),characterSeries.size());
+        }
+
+        List<Comic> characterStories=mCharacter.getStories().getItems();
+        if(!characterStories.isEmpty()){
+            mStoriesWrapper=new ComicFrameWrapper(mActivity,getString(R.string.stories),characterStories,this);
+            mComicWrapper.addView(mStoriesWrapper);
+            mCharacterPresenter.onCharacterStoriesRequested(mCharacter.getId(),characterStories.size());
+        }
+
+        List<Comic> characterEvents=mCharacter.getEvents().getItems();
+        if(!characterEvents.isEmpty()){
+            mEventsWrapper=new ComicFrameWrapper(mActivity,getString(R.string.events),characterEvents,this);
+            mComicWrapper.addView(mEventsWrapper);
+            mCharacterPresenter.onCharacterEventRequested(mCharacter.getId(),characterEvents.size());
+        }
+
+        if(!mCharacter.getUrls().isEmpty()){
+            mContentFrame.addView(new UrlFrameWrapper(mActivity,mActivity.getResources().getString(R.string.related_links),mCharacter.getUrls()));
+        }
+
+        TextView copyRightTextView=new TextView(mActivity);
+        copyRightTextView.setText(getString(R.string.marvel_copyright_notice));
+        mContentFrame.addView(copyRightTextView);
 
     }
 
@@ -205,8 +238,30 @@ public class CharacterFragment extends Fragment implements CharacterContract.Cha
     }
 
     @Override
+    public void showSeriesList(List<Comic> results) {
+        mSeriesWrapper.loadImages(results);
+    }
+
+    @Override
+    public void showStoriesList(List<Comic> results) {
+        mStoriesWrapper.loadImages(results);
+    }
+
+    @Override
+    public void showEventsList(List<Comic> results) {
+        mEventsWrapper.loadImages(results);
+    }
+
+    @Override
     public void onComicClick(List<Comic> comicList, ImageView sharedImageView, int clickedPosition) {
-        // TODO: 2017/5/24 ComicFragment
+        if(mActivity.getSupportFragmentManager().findFragmentByTag(ComicFragment.TAG)==null){
+            mActivity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.character_container, ComicFragment.newInstance(comicList,clickedPosition))
+                    .addSharedElement(sharedImageView, ViewCompat.getTransitionName(sharedImageView))
+                    .addToBackStack(ComicFragment.TAG)
+                    .commit();
+        }
 
     }
 }

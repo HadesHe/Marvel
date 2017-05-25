@@ -17,4 +17,8 @@ public class ImageLoaderUtil {
     public static void loadImage(Context context, String characterImageUrl, ImageView image) {
         Picasso.with(context).load(characterImageUrl).centerCrop().fit().into(image);
     }
+
+    public static void loadImage(Context context, int drawableId, ImageView viewById) {
+        Picasso.with(context).load(drawableId).into(viewById);
+    }
 }

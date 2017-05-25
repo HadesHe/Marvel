@@ -33,6 +33,130 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
         getComicList(id,null,size);
     }
 
+    @Override
+    public void onCharacterSeriesRequested(long id, int size) {
+        getSeriesList(id,null,size);
+
+    }
+
+    @Override
+    public void onCharacterStoriesRequested(long id, int size) {
+        getStoriesList(id,null,size);
+    }
+
+    @Override
+    public void onCharacterEventRequested(long id, int size) {
+        getEventsList(id,null,size);
+    }
+
+    private void getEventsList(long id, Integer offset, int size) {
+        if(!isViewAttached())return;
+        mView.showMessageLayout(false);
+        mView.showProgress();
+
+        mDataManager.getComics(id, offset, size, new RemoteCallback<DataWrapper<List<Comic>>>() {
+            @Override
+            protected void onFailed(Throwable throwable) {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                mView.showError(throwable.getMessage());
+
+            }
+
+            @Override
+            protected void onUnauthorized() {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                mView.showUnauthorizedError();
+
+            }
+
+            @Override
+            protected void onSuccess(DataWrapper<List<Comic>> body) {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                if(body.getData().getResults().isEmpty()){
+                    mView.showError("Character has no comics");
+                    return;
+                }
+                mView.showEventsList(body.getData().getResults());
+
+            }
+        });
+    }
+
+    private void getStoriesList(long id, Integer offset, Integer size) {
+        if(!isViewAttached())return;
+        mView.showMessageLayout(false);
+        mView.showProgress();
+
+        mDataManager.getComics(id, offset, size, new RemoteCallback<DataWrapper<List<Comic>>>() {
+            @Override
+            protected void onFailed(Throwable throwable) {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                mView.showError(throwable.getMessage());
+
+            }
+
+            @Override
+            protected void onUnauthorized() {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                mView.showUnauthorizedError();
+
+            }
+
+            @Override
+            protected void onSuccess(DataWrapper<List<Comic>> body) {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                if(body.getData().getResults().isEmpty()){
+                    mView.showError("Character has no comics");
+                    return;
+                }
+                mView.showStoriesList(body.getData().getResults());
+
+            }
+        });
+    }
+
+    private void getSeriesList(Long id, Integer offset, Integer size) {
+        if(!isViewAttached())return;
+        mView.showMessageLayout(false);
+        mView.showProgress();
+
+        mDataManager.getComics(id, offset, size, new RemoteCallback<DataWrapper<List<Comic>>>() {
+            @Override
+            protected void onFailed(Throwable throwable) {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                mView.showError(throwable.getMessage());
+
+            }
+
+            @Override
+            protected void onUnauthorized() {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                mView.showUnauthorizedError();
+
+            }
+
+            @Override
+            protected void onSuccess(DataWrapper<List<Comic>> body) {
+                if(!isViewAttached())return;
+                mView.hideProgress();
+                if(body.getData().getResults().isEmpty()){
+                    mView.showError("Character has no comics");
+                    return;
+                }
+                mView.showSeriesList(body.getData().getResults());
+
+            }
+        });
+    }
+
     private void getComicList(Long id, Integer offset, Integer size) {
         if(!isViewAttached())return;
         mView.showMessageLayout(false);
