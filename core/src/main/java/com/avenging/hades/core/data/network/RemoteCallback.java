@@ -35,11 +35,11 @@ public abstract class RemoteCallback<T> implements Callback<T> {
 
     }
 
-    protected abstract void onFailed(Throwable throwable);
+    public abstract void onFailed(Throwable throwable);
 
-    protected abstract void onUnauthorized();
+    public abstract void onUnauthorized();
 
-    protected abstract void onSuccess(T body);
+    public abstract void onSuccess(T body);
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
