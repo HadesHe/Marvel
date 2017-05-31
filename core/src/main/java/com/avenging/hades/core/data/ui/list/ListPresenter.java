@@ -49,7 +49,7 @@ public class ListPresenter extends BasePresenter<ListContract.ListView> implemen
         mView.showProgress();
         mDataManager.getCharactersList(offset, limit, searchQuery, new RemoteCallback<DataWrapper<List<CharacterMarvel>>>() {
             @Override
-            protected void onFailed(Throwable throwable) {
+            public void onFailed(Throwable throwable) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showError(throwable.getMessage());
@@ -57,7 +57,7 @@ public class ListPresenter extends BasePresenter<ListContract.ListView> implemen
             }
 
             @Override
-            protected void onUnauthorized() {
+            public void onUnauthorized() {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showUnauthorizedError();
@@ -65,7 +65,7 @@ public class ListPresenter extends BasePresenter<ListContract.ListView> implemen
             }
 
             @Override
-            protected void onSuccess(DataWrapper<List<CharacterMarvel>> body) {
+            public void onSuccess(DataWrapper<List<CharacterMarvel>> body) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 List<CharacterMarvel> responseResults=body.getData().getResults();

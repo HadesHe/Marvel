@@ -56,7 +56,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
 
         mDataManager.getComics(id, offset, size, new RemoteCallback<DataWrapper<List<Comic>>>() {
             @Override
-            protected void onFailed(Throwable throwable) {
+            public void onFailed(Throwable throwable) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showError(throwable.getMessage());
@@ -64,7 +64,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
             }
 
             @Override
-            protected void onUnauthorized() {
+            public void onUnauthorized() {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showUnauthorizedError();
@@ -72,7 +72,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
             }
 
             @Override
-            protected void onSuccess(DataWrapper<List<Comic>> body) {
+            public void onSuccess(DataWrapper<List<Comic>> body) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 if(body.getData().getResults().isEmpty()){
@@ -92,7 +92,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
 
         mDataManager.getComics(id, offset, size, new RemoteCallback<DataWrapper<List<Comic>>>() {
             @Override
-            protected void onFailed(Throwable throwable) {
+            public void onFailed(Throwable throwable) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showError(throwable.getMessage());
@@ -100,7 +100,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
             }
 
             @Override
-            protected void onUnauthorized() {
+            public void onUnauthorized() {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showUnauthorizedError();
@@ -108,7 +108,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
             }
 
             @Override
-            protected void onSuccess(DataWrapper<List<Comic>> body) {
+            public void onSuccess(DataWrapper<List<Comic>> body) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 if(body.getData().getResults().isEmpty()){
@@ -128,7 +128,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
 
         mDataManager.getComics(id, offset, size, new RemoteCallback<DataWrapper<List<Comic>>>() {
             @Override
-            protected void onFailed(Throwable throwable) {
+            public void onFailed(Throwable throwable) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showError(throwable.getMessage());
@@ -136,7 +136,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
             }
 
             @Override
-            protected void onUnauthorized() {
+            public void onUnauthorized() {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showUnauthorizedError();
@@ -144,7 +144,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
             }
 
             @Override
-            protected void onSuccess(DataWrapper<List<Comic>> body) {
+            public void onSuccess(DataWrapper<List<Comic>> body) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 if(body.getData().getResults().isEmpty()){
@@ -164,7 +164,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
 
         mDataManager.getComics(id, offset, size, new RemoteCallback<DataWrapper<List<Comic>>>() {
             @Override
-            protected void onFailed(Throwable throwable) {
+            public void onFailed(Throwable throwable) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showError(throwable.getMessage());
@@ -172,7 +172,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
             }
 
             @Override
-            protected void onUnauthorized() {
+            public void onUnauthorized() {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showUnauthorizedError();
@@ -180,7 +180,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
             }
 
             @Override
-            protected void onSuccess(DataWrapper<List<Comic>> body) {
+            public void onSuccess(DataWrapper<List<Comic>> body) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 if(body.getData().getResults().isEmpty()){
@@ -206,14 +206,14 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
         mView.showProgress();
         mDataManager.getCharacter(id, new RemoteCallback<DataWrapper<List<CharacterMarvel>>>() {
             @Override
-            protected void onFailed(Throwable throwable) {
+            public void onFailed(Throwable throwable) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showError(throwable.getMessage());
             }
 
             @Override
-            protected void onUnauthorized() {
+            public void onUnauthorized() {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 mView.showUnauthorizedError();
@@ -221,7 +221,7 @@ public class CharacterPresenter extends BasePresenter<CharacterContract.Characte
             }
 
             @Override
-            protected void onSuccess(DataWrapper<List<CharacterMarvel>> response) {
+            public void onSuccess(DataWrapper<List<CharacterMarvel>> response) {
                 if(!isViewAttached())return;
                 mView.hideProgress();
                 if(response.getData().getResults().isEmpty()){
