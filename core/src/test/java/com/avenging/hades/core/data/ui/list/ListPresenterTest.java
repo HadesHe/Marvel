@@ -2,7 +2,6 @@ package com.avenging.hades.core.data.ui.list;
 
 
 import android.text.TextUtils;
-import android.text.style.EasyEditSpan;
 
 import com.avenging.hades.core.data.DataManager;
 import com.avenging.hades.core.data.model.CharacterMarvel;
@@ -20,13 +19,11 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.inOrder;
